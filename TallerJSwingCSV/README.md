@@ -1,2 +1,0 @@
-# TallerJSwingCSV
-Andrecito el jefe
