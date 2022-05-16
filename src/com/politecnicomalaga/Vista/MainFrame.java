@@ -563,6 +563,8 @@ public class MainFrame extends JFrame {
                 GridBagConstraints gbcPanelFormulario = new GridBagConstraints();
                 GridBagConstraints gbcPanelCobros = new GridBagConstraints();
                 GridBagConstraints gbcPanelYaCobrados = new GridBagConstraints();
+                GridBagConstraints gbcPanelAltaProveedor = new GridBagConstraints();
+                GridBagConstraints gbcPanelListaProveedor = new GridBagConstraints();
 
                 // Ahora tenemos que modificar las configuraciones variables para adaptar los paneles
 
@@ -620,10 +622,28 @@ public class MainFrame extends JFrame {
                 gbcPanelYaCobrados.insets = new Insets((altoVentana * 20) / 100, (anchoVentana * 21) / 100, (altoVentana * 20) / 100,(anchoVentana * 21) / 100);
 
 
+                //Confuraciones del Panel Alta Proveedor
+                gbcPanelAltaProveedor.fill = GridBagConstraints.BOTH;   // <- BOTH = Horizontal y vertical
+                gbcPanelAltaProveedor.weightx = 1;
+                gbcPanelAltaProveedor.weighty = 1;
+
+                gbcPanelAltaProveedor.insets = new Insets((altoVentana * 5) / 100, (anchoVentana * 5) / 100, (altoVentana * 5) / 100, (anchoVentana * 5) / 100);
+
+                //Confuraciones del Panel Lista Proveedor
+                gbcPanelListaProveedor.fill = GridBagConstraints.BOTH;
+                gbcPanelListaProveedor.weightx = 1;
+                gbcPanelListaProveedor.weighty = 1;
+
+                //Usaremos los mismo margenes que en el PanelCobros
+                gbcPanelListaProveedor.insets = new Insets((altoVentana * 20) / 100, (anchoVentana * 21) / 100, (altoVentana * 20) / 100,(anchoVentana * 21) / 100);
+
+
                 // Asignamos las configuraciones al panel correspondiente
                 gbl.setConstraints(scrollPanelFormularioAlta, gbcPanelFormulario);
                 gbl.setConstraints(panelCobroTrabajos, gbcPanelCobros);
                 gbl.setConstraints(panelTrabajosCobrados, gbcPanelYaCobrados);
+                gbl.setConstraints(panelAltaProveedor, gbcPanelAltaProveedor);
+                gbl.setConstraints(panelListaProveedores, gbcPanelListaProveedor);
 
                 // Refrescamos el panelContenido para que se vean los cambios
                 panelContenido.repaint();
