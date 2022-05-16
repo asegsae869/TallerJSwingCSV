@@ -704,7 +704,6 @@ public class MainFrame extends JFrame {
         //NO FUNCIONA¡!
         recorrerLista();
         //NO FUNCIONA¡!
-        Controlador.getSingleton().actualizarTrabajoTaller(item, Controlador.getSingleton().getFicheroCobrado());
 
     }
 
