@@ -42,6 +42,7 @@ public class Controlador {
         miControlTrabajosPorCobrar = new ControlTrabajos();
         miControlTrabajosCobrados = new ControlTrabajos();
         cargarTrabajosPorCobrar();
+        cargarTrabajosCobrados();
         mensajeError = "";
     }
 
@@ -60,6 +61,28 @@ public class Controlador {
             while (sc.hasNextLine()) {
                 sCSV = sc.nextLine();
                 miControlTrabajosPorCobrar.addTrabajo(sCSV);
+                lines++;
+            }
+
+            fr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void cargarTrabajosCobrados() {
+        String sCSV = "";
+        FileReader fr;
+        Scanner sc;
+        byte lines = 0;
+
+        try {
+            fr = new FileReader(ficheroCobrado);
+            sc = new Scanner(fr);
+
+            while (sc.hasNextLine()) {
+                sCSV = sc.nextLine();
+                miControlTrabajosCobrados.addTrabajo(sCSV);
                 lines++;
             }
 
@@ -105,7 +128,7 @@ public class Controlador {
         }
     }
 
-    public void actualizarTrabajoTaller(String sCSV, String sFichero){
+    private void grabarTrabajoRealizado(String sCSV, String sFichero){
         //abrimos una escritura al fichero
         FileWriter fw = null;
         try {
@@ -127,8 +150,32 @@ public class Controlador {
         }
     }
 
+    public void actualizarTrabajoTaller(String sCSV, String sFichero){
+        //abrimos una escritura al fichero
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(sFichero,false);
+            //adicionamos al final la línea tal cual y un "\n"
+            fw.write(sCSV);
+            fw.flush();
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            if (fw != null){
+                try{
+                    fw.close();
+                } catch (IOException e){
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public void cobrarTrabajo(String sCSV, String horasReales){
         miControlTrabajosCobrados.addTrabajo(miControlTrabajosPorCobrar.cobrar(sCSV,horasReales));
+        grabarTrabajoRealizado(sCSV, ficheroCobrado);
+        actualizarTrabajoTaller(miControlTrabajosPorCobrar.getListaTrabajosVistaString(), ficheroPorCobrar);
     }
 
     public String getFicheroCobrado(){

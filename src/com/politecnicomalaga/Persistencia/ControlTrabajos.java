@@ -51,4 +51,13 @@ public class ControlTrabajos {
         }
         return resultado;
     }
+
+    public String getListaTrabajosVistaString(){
+        String resultado = "";
+
+        for (int i = 0; i < listaTrabajos.size(); i++) {
+            resultado += listaTrabajos.get(i).toString() + "\n";
+        }
+        return resultado;
+    }
 }

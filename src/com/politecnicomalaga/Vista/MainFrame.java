@@ -667,8 +667,7 @@ public class MainFrame extends JFrame {
             case 4-> tipo = "Camión";
         }
 
-        sCSV =  tipo + ';' +
-                sMatricula + ';' +
+        sCSV = sMatricula + ';' +
                 sModelo + ';' +
                 sPropietario + ';' +
                 sDNIPropietario+ ";" +
@@ -744,5 +743,7 @@ public class MainFrame extends JFrame {
 
         labelTrabajosCobrados.setText("Trabajos cobrados: " + i);
     }
+
+
 
 }
