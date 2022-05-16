@@ -655,10 +655,7 @@ public class MainFrame extends JFrame {
 
     // Métodos Extra ###################################################################################################
     private void comprobarAltaInfoYAceptar() {
-        String sCSV,sFecha,sMatricula,sModelo,sPropietario,sDNIPropietario,sDiagnostico,sResolucion,sHorasTrabajoPrevistas,tipo;
-
-        //inicializamos tipo para que se pueda usar en el CSV
-        tipo = "";
+        String sCSV,sFecha,sMatricula,sModelo,sPropietario,sDNIPropietario,sDiagnostico,sResolucion,sHorasTrabajoPrevistas;
 
         //Comprobamos que el usuario ha introducido la información adecuada.
         //Por programar...
@@ -679,13 +676,6 @@ public class MainFrame extends JFrame {
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         sFecha = formatter.format(Calendar.getInstance().getTime());
-
-        switch (indice){
-            case 1-> tipo = "Coche";
-            case 2-> tipo = "Moto";
-            case 3-> tipo = "Furgón";
-            case 4-> tipo = "Camión";
-        }
 
         sCSV = sMatricula + ';' +
                 sModelo + ';' +
@@ -721,16 +711,15 @@ public class MainFrame extends JFrame {
 
         cargarTrabajosPorCobrar();
 
-        //NO FUNCIONA¡!
         recorrerLista();
-        //NO FUNCIONA¡!
+        showMessageDialog(panelCobroTrabajos,"Trabajo cobrado");
 
     }
 
-    //NO FUNCIONA¡!
+    // recorremos la lista de cobros
     private void recorrerLista(){
         for (int i = 0; i < listaCobros.getMaxSelectionIndex(); i++) {
-            String item = (String)listaCobros.getModel().getElementAt(i);
+            listaCobros.getModel().getElementAt(i);
         }
     }
 
