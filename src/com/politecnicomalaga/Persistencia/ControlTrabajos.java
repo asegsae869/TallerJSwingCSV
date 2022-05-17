@@ -1,7 +1,9 @@
 package com.politecnicomalaga.Persistencia;
 
+import com.politecnicomalaga.Controlador.Controlador;
 import com.politecnicomalaga.Modelo.TrabajoTaller;
 
+import javax.swing.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,16 +19,21 @@ public class ControlTrabajos {
     }
 
     //Otros métodos
+
+    //Añade un objeto Trabajo a su lista, lo contruye pasandole un CSV
     public void addTrabajo(String sCSV){
         TrabajoTaller tt;
         tt = new TrabajoTaller(sCSV);
         listaTrabajos.add(tt);
     }
 
+    //Añade el trabajo que se le pase como parametro a su lista
     public void addTrabajo(TrabajoTaller tt){
         listaTrabajos.add(tt);
     }
 
+
+    //Elimina el trabajo de la List  comparando el CSV. Devuelve el trabajo
     public TrabajoTaller cobrar(String sCSV, String sHorasReales){
         TrabajoTaller tt;
 

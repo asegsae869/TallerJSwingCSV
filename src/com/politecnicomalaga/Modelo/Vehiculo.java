@@ -61,7 +61,7 @@ public class Vehiculo {
 
     @Override
     public String toString() {
-        return  matricula + ';' + modelo + ';' + propietario + ';' + dniPropietario;
+        return  tipo + ';' + matricula + ';' + modelo + ';' + propietario + ';' + dniPropietario;
     }
 
     //método compare to para usar el ControladorTaller

@@ -35,12 +35,19 @@ public class TrabajoTaller {
 
     public TrabajoTaller(String sCSV){
         String[] listaParametros = sCSV.split(";");
-        miVehiculo = new Vehiculo(listaParametros[0],listaParametros[1],listaParametros[2],listaParametros[3]);
-        this.fechaEntrada = listaParametros[4];
-        this.diagnostico = listaParametros[5];
-        this.resolucion = listaParametros[6];
-        this.hTrabPrevistas = Float.valueOf(listaParametros[7]);
-        this.hTrabRealizadas = Float.valueOf(listaParametros[8]);
+
+        switch(listaParametros[0]){
+            case "Coche" -> this.miVehiculo = new Coche(listaParametros[1],listaParametros[2],listaParametros[3],listaParametros[4]);
+            case "Moto" -> this.miVehiculo = new Moto(listaParametros[1],listaParametros[2],listaParametros[3],listaParametros[4]);
+            case "Furgón" -> this.miVehiculo = new Furgon(listaParametros[1],listaParametros[2],listaParametros[3],listaParametros[4]);
+            case "Camión" -> this.miVehiculo = new Camion(listaParametros[1],listaParametros[2],listaParametros[3],listaParametros[4]);
+        }
+
+        this.fechaEntrada = listaParametros[5];
+        this.diagnostico = listaParametros[6];
+        this.resolucion = listaParametros[7];
+        this.hTrabPrevistas = Float.valueOf(listaParametros[8]);
+        this.hTrabRealizadas = Float.valueOf(listaParametros[9]);
     }
 
     public Vehiculo getMiVehiculo() {

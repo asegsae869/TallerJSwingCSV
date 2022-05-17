@@ -98,7 +98,6 @@ public class MainFrame extends JFrame {
 
     protected JPanel panelListaProveedores;
     protected JLabel lProveedoresDisponibles;
-    //protected JLabel labelTrabajosCobrados;
     protected JList  listaProveedores;
     protected JScrollPane scrollProveedoresLista;
 
@@ -194,18 +193,18 @@ public class MainFrame extends JFrame {
         labelTipo = new JLabel("Tipo de Vehiculo:");
         comboTipo = new JComboBox(Controlador.getSingleton().getTiposVehiculo());
         labelMatricula = new JLabel("Matrícula:");
-        tfMatricula = new JTextField();
+        tfMatricula = new JTextField("matricula");
         labelDni = new JLabel("DNI Propietario:");
-        tfDni = new JTextField();
+        tfDni = new JTextField("12345678K");
         labelPropietario = new JLabel("Propietario:");
-        tfPropietario = new JTextField();
+        tfPropietario = new JTextField("Persona");
         labelModelo = new JLabel("Modelo:");
-        tfModelo = new JTextField();
+        tfModelo = new JTextField("X1A");
         labelDiagnostico = new JLabel("Diagnóstico:");
-        taDiagnostico = new JTextArea();
+        taDiagnostico = new JTextArea("No arranca");
         scrollDiagnostico = new JScrollPane(taDiagnostico); // <- Con este scroll evitamos el bug de que se muevan las etiquetas al escribir en el textarea
         labelSolucion = new JLabel("Solución:");
-        taSolucion = new JTextArea();
+        taSolucion = new JTextArea("Arrancar");
         scrollSolucion = new JScrollPane(taSolucion);
         labelHorasPrevistas = new JLabel("Horas previstas:");
         tfHorasPrevistas = new JTextField();
@@ -468,7 +467,7 @@ public class MainFrame extends JFrame {
                 panelTrabajosCobrados.setVisible(false);
                 panelAltaProveedor.setVisible(false);
                 panelListaProveedores.setVisible(false);
-                cargarTrabajosPorCobrar();
+                Controlador.getSingleton().cargarListaCobrar(listaCobros, tTotal);
             }
         });
 
@@ -484,7 +483,8 @@ public class MainFrame extends JFrame {
                 panelTrabajosCobrados.setVisible(true);
                 panelAltaProveedor.setVisible(false);
                 panelListaProveedores.setVisible(false);
-                cargarTrabajosCobrados();
+                Controlador.getSingleton().cargarListaCobrados(listaCobrados, labelTrabajosCobrados);
+                // Rellena JList, modifica Label
             }
         });
 
@@ -521,18 +521,28 @@ public class MainFrame extends JFrame {
             }
         });
 
-        botonListaProveedores.addActionListener(new ActionListener() {
+        btnAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panelFormularioAlta.setVisible(false);
-                scrollPanelFormularioAlta.setVisible(false);
-
-                panelCobroTrabajos.setVisible(false);
-                panelTrabajosCobrados.setVisible(false);
-                panelAltaProveedor.setVisible(false);
-                panelListaProveedores.setVisible(true);
+                comprobarAltaInfoYAceptarProveedor();
             }
         });
+
+
+                botonListaProveedores.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        panelFormularioAlta.setVisible(false);
+                        scrollPanelFormularioAlta.setVisible(false);
+
+                        panelCobroTrabajos.setVisible(false);
+                        panelTrabajosCobrados.setVisible(false);
+                        panelAltaProveedor.setVisible(false);
+                        panelListaProveedores.setVisible(true);
+
+                        Controlador.getSingleton().cargarListaProveedores(listaProveedores, lProveedoresDisponibles);
+                    }
+                });
 
         this.pack();
 
@@ -563,8 +573,6 @@ public class MainFrame extends JFrame {
                 GridBagConstraints gbcPanelFormulario = new GridBagConstraints();
                 GridBagConstraints gbcPanelCobros = new GridBagConstraints();
                 GridBagConstraints gbcPanelYaCobrados = new GridBagConstraints();
-                GridBagConstraints gbcPanelAltaProveedor = new GridBagConstraints();
-                GridBagConstraints gbcPanelListaProveedor = new GridBagConstraints();
 
                 // Ahora tenemos que modificar las configuraciones variables para adaptar los paneles
 
@@ -622,28 +630,10 @@ public class MainFrame extends JFrame {
                 gbcPanelYaCobrados.insets = new Insets((altoVentana * 20) / 100, (anchoVentana * 21) / 100, (altoVentana * 20) / 100,(anchoVentana * 21) / 100);
 
 
-                //Confuraciones del Panel Alta Proveedor
-                gbcPanelAltaProveedor.fill = GridBagConstraints.BOTH;   // <- BOTH = Horizontal y vertical
-                gbcPanelAltaProveedor.weightx = 1;
-                gbcPanelAltaProveedor.weighty = 1;
-
-                gbcPanelAltaProveedor.insets = new Insets((altoVentana * 5) / 100, (anchoVentana * 5) / 100, (altoVentana * 5) / 100, (anchoVentana * 5) / 100);
-
-                //Confuraciones del Panel Lista Proveedor
-                gbcPanelListaProveedor.fill = GridBagConstraints.BOTH;
-                gbcPanelListaProveedor.weightx = 1;
-                gbcPanelListaProveedor.weighty = 1;
-
-                //Usaremos los mismo margenes que en el PanelCobros
-                gbcPanelListaProveedor.insets = new Insets((altoVentana * 20) / 100, (anchoVentana * 21) / 100, (altoVentana * 20) / 100,(anchoVentana * 21) / 100);
-
-
                 // Asignamos las configuraciones al panel correspondiente
                 gbl.setConstraints(scrollPanelFormularioAlta, gbcPanelFormulario);
                 gbl.setConstraints(panelCobroTrabajos, gbcPanelCobros);
                 gbl.setConstraints(panelTrabajosCobrados, gbcPanelYaCobrados);
-                gbl.setConstraints(panelAltaProveedor, gbcPanelAltaProveedor);
-                gbl.setConstraints(panelListaProveedores, gbcPanelListaProveedor);
 
                 // Refrescamos el panelContenido para que se vean los cambios
                 panelContenido.repaint();
@@ -655,13 +645,17 @@ public class MainFrame extends JFrame {
 
     // Métodos Extra ###################################################################################################
     private void comprobarAltaInfoYAceptar() {
-        String sCSV,sFecha,sMatricula,sModelo,sPropietario,sDNIPropietario,sDiagnostico,sResolucion,sHorasTrabajoPrevistas;
+        String sCSV,sFecha,sMatricula,sModelo,sPropietario,sDNIPropietario,sDiagnostico,sResolucion,sHorasTrabajoPrevistas,tipo;
+
+        //inicializamos tipo para que se pueda usar en el CSV
+        tipo = "";
 
         //Comprobamos que el usuario ha introducido la información adecuada.
         //Por programar...
 
         //Recogemos los datos del formulario
         int indice = comboTipo.getSelectedIndex();
+
         sMatricula = tfMatricula.getText();
         sModelo = tfModelo.getText();
         sPropietario = tfPropietario.getText();
@@ -677,7 +671,15 @@ public class MainFrame extends JFrame {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         sFecha = formatter.format(Calendar.getInstance().getTime());
 
-        sCSV = sMatricula + ';' +
+        switch (indice){
+            case 0-> tipo = "Coche";
+            case 1-> tipo = "Moto";
+            case 2-> tipo = "Furgón";
+            case 3-> tipo = "Camión";
+        }
+
+        sCSV =  tipo + ';' +
+                sMatricula + ';' +
                 sModelo + ';' +
                 sPropietario + ';' +
                 sDNIPropietario+ ";" +
@@ -685,6 +687,7 @@ public class MainFrame extends JFrame {
                 sDiagnostico + ';' +
                 sResolucion + ';' +
                 sHorasTrabajoPrevistas + ";0";
+
 
         Controlador.getSingleton().altaTrabajo(sCSV);
         showMessageDialog(panelFormularioAlta,"Vehículo añadido");
@@ -698,60 +701,30 @@ public class MainFrame extends JFrame {
 
     }
 
+    //Dar de ALta a un proveedor
+    private void comprobarAltaInfoYAceptarProveedor(){
+        String sCSV = tfNombreEmpresa.getText() +";"
+                    + tfFechaAlta.getText()+";"
+                    + tfDireccionPostal.getText()+";"
+                    +tfNumeroTelefono.getText()+";"
+                    +tfEmail.getText()+";"
+                    + tfContactoComercial.getText();
+
+        Controlador.getSingleton().altaProveedor(sCSV);
+    }
+
+
     private void cobrarTrabajo() {
-        //Comprobamos que el usuario ha seleccionado un trabajo.
         int iSelected = this.listaCobros.getSelectedIndex();
 
+        //Pasamos el elemento de la Lista seleccionado a String
         String item = (String)listaCobros.getModel().getElementAt(iSelected);
 
         //Falta coger horas reales con un dialogo flotante
         String sHorasReales = "0";
-        //Pedimos al controlador que realice el "cobro".
+
+        //Pedimos al controlador que realice el "cobro" (elimina el elemento de la lista).
         Controlador.getSingleton().cobrarTrabajo(item, sHorasReales);
-
-        cargarTrabajosPorCobrar();
-
-        recorrerLista();
-        showMessageDialog(panelCobroTrabajos,"Trabajo cobrado");
-
+        Controlador.getSingleton().cargarListaCobrar(listaCobros, labelTrabajosYaCobrados); //Actualiza la lista
     }
-
-    // recorremos la lista de cobros
-    private void recorrerLista(){
-        for (int i = 0; i < listaCobros.getMaxSelectionIndex(); i++) {
-            listaCobros.getModel().getElementAt(i);
-        }
-    }
-
-    private void cargarTrabajosPorCobrar() {
-        int i;
-        //Rellenamos el JList con los datos
-        String[] lista = Controlador.getSingleton().getTrabajosACobrar();
-        DefaultListModel<String> myModel = new DefaultListModel<>();
-        for (i =0;i<lista.length;i++) {
-            myModel.addElement(lista[i]);
-        }
-
-        this.listaCobros.setModel(myModel);
-
-        tTotal.setText("Trabajos por cobrar: " + i);
-    }
-
-    private void cargarTrabajosCobrados() {
-        //Rellenamos el JList con los datos
-        int i;
-        //Rellenamos el JList con los datos
-        String[] lista = Controlador.getSingleton().getTrabajosRealizados();
-        DefaultListModel<String> myModel = new DefaultListModel<>();
-        for (i =0;i<lista.length;i++) {
-            myModel.addElement(lista[i]);
-        }
-
-        this.listaCobrados.setModel(myModel);
-
-        labelTrabajosCobrados.setText("Trabajos cobrados: " + i);
-    }
-
-
-
 }
