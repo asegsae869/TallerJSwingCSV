@@ -632,6 +632,7 @@ public class MainFrame extends JFrame {
                 //Usaremos los mismo margenes que en el PanelCobros
                 gbcPanelYaCobrados.insets = new Insets((altoVentana * 20) / 100, (anchoVentana * 21) / 100, (altoVentana * 20) / 100,(anchoVentana * 21) / 100);
 
+
                 //CONFIGURACIONES DEL PANEL DE ALTA PROVEEDOR
 
                 gbcPanelAltaProveedor.fill = GridBagConstraints.BOTH;   // <- BOTH = Horizontal y vertical
