@@ -50,6 +50,14 @@ public class Controlador {
 
     //METODOS //////////////////////////////////////////////////////////////////////////////////
 
+    //El trucamen
+    public static Controlador getSingleton(){
+        if(singleton == null){
+            singleton = new Controlador();
+        }
+        return singleton;
+    }
+
     //Mete los trabajos PorCobrar en el List al abrir el programa
     private void cargarTrabajosPorCobrar() {
         String sCSV = "";
@@ -141,7 +149,6 @@ public class Controlador {
         }
     }
 
-
     //Vacia el fichero y escribe los elementos del List actuales (Parametro String = (String) elementos de la LIsta)
     public void actualizarTrabajoTaller(String sCSV, String sFichero){
         //abrimos una escritura al fichero
@@ -163,14 +170,6 @@ public class Controlador {
                 }
             }
         }
-    }
-
-    //El trucamen
-    public static Controlador getSingleton(){
-        if(singleton == null){
-            singleton = new Controlador();
-        }
-        return singleton;
     }
 
     //Añade un Trabajo por cobrar a la List y al fichero
@@ -246,7 +245,7 @@ public class Controlador {
         //Actualiza la listaCobros con el nuevo Modelo
         listaVer.setModel(myModel);
 
-        label.setText("Total proveedores disponibles" + i);
+        label.setText("Total proveedores disponibles: " + i);
     }
 
 
@@ -266,10 +265,6 @@ public class Controlador {
 
     public String[] getTiposVehiculo(){
         return tiposVehiculo;
-    }
-
-    public String getFicheroCobrado(){
-        return ficheroCobrado;
     }
 
 }

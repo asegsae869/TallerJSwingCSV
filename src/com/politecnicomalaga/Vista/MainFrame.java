@@ -529,20 +529,21 @@ public class MainFrame extends JFrame {
         });
 
 
-                botonListaProveedores.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        panelFormularioAlta.setVisible(false);
-                        scrollPanelFormularioAlta.setVisible(false);
+        botonListaProveedores.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panelFormularioAlta.setVisible(false);
+                scrollPanelFormularioAlta.setVisible(false);
 
-                        panelCobroTrabajos.setVisible(false);
-                        panelTrabajosCobrados.setVisible(false);
-                        panelAltaProveedor.setVisible(false);
-                        panelListaProveedores.setVisible(true);
+                panelCobroTrabajos.setVisible(false);
+                panelTrabajosCobrados.setVisible(false);
+                panelAltaProveedor.setVisible(false);
+                panelListaProveedores.setVisible(true);
 
-                        Controlador.getSingleton().cargarListaProveedores(listaProveedores, lProveedoresDisponibles);
-                    }
-                });
+                Controlador.getSingleton().cargarListaProveedores(listaProveedores, lProveedoresDisponibles);
+
+            }
+        });
 
         this.pack();
 
@@ -711,6 +712,15 @@ public class MainFrame extends JFrame {
                     + tfContactoComercial.getText();
 
         Controlador.getSingleton().altaProveedor(sCSV);
+
+        // cuando le damos al botón aceptar se settean los campos
+        showMessageDialog(panelAltaProveedor, "Proveedor añadido");
+        tfNombreEmpresa.setText("");
+        tfFechaAlta.setText("");
+        tfDireccionPostal.setText("");
+        tfNumeroTelefono.setText("");
+        tfEmail.setText("");
+        tfContactoComercial.setText("");
     }
 
 
